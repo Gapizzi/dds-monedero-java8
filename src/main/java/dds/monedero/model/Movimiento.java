@@ -44,15 +44,15 @@ public class Movimiento {
   }
 
   public void agregateA(Cuenta cuenta) {
-    actualizarSaldo(cuenta);
+    cuenta.setSaldo(calcularValor(cuenta));
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
-  public void actualizarSaldo(Cuenta cuenta) {
+  public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {
-      cuenta.poner(getMonto());
+      return cuenta.getSaldo() + getMonto();
     } else {
-      cuenta.sacar(getMonto());
+      return cuenta.getSaldo() - getMonto();
     }
   }
 }
