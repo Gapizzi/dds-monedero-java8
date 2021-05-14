@@ -23,9 +23,7 @@ public class Cuenta {
 
     validarMontoNegativo(cuanto);
 
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
-    }
+    validarCantidadDeDepositos();
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
@@ -73,6 +71,14 @@ public class Cuenta {
   private void validarMontoNegativo(double monto){
     if (monto <= 0) {
       throw new MontoNegativoException(monto + ": el monto a ingresar debe ser un valor positivo");
+    }
+  }
+
+  private void validarCantidadDeDepositos(){
+    int cantidadMaximaDepositos=3;
+
+    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= cantidadMaximaDepositos) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + cantidadMaximaDepositos + " depositos diarios");
     }
   }
 }
