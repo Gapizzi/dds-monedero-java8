@@ -12,14 +12,11 @@ import java.util.List;
 public class Cuenta {
 
   private double saldo = 0;
-  private List<Movimiento> movimientos = new ArrayList<>();
+  private List<Movimiento> movimientos;
 
-  public Cuenta() {
-    saldo = 0;
-  }
-
-  public Cuenta(double montoInicial) {
-    saldo = montoInicial;
+  public Cuenta(double saldo) {
+    this.saldo = saldo;
+    movimientos = new ArrayList<>();
   }
 
   public void setMovimientos(List<Movimiento> movimientos) {
