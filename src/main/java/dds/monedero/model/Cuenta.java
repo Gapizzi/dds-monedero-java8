@@ -28,12 +28,7 @@ public class Cuenta {
   public void sacar(double cuanto) {
     validarMontoNegativo(cuanto);
     validarNoSePuedeSacarMasQueElSaldo(cuanto);
-    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
-    double limite = 1000 - montoExtraidoHoy;
-    if (cuanto > limite) {
-      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
-          + " diarios, límite: " + limite);
-    }
+    validarNoSePuedeExtaerMasQueElLimite(cuanto);
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
@@ -78,6 +73,15 @@ public class Cuenta {
   private void validarNoSePuedeSacarMasQueElSaldo(double monto){
     if (getSaldo() - monto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
+    }
+  }
+
+  private void validarNoSePuedeExtaerMasQueElLimite(double monto){
+    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    double limite = 1000 - montoExtraidoHoy;
+    if (monto > limite) {
+      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
+          + " diarios, límite: " + limite);
     }
   }
 }
